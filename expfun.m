@@ -6,11 +6,11 @@ function Y = expfun(param, t)
     c  = param(4);
 
     %Check if first time point is early enough for k1.
-    [t, tcheck] = ticheck(k1, t);
+    [t, hasAddedT] = checkTi(k1, t);
     
     %Numerical integration
-    [~, yout] = ode45(@difeq, t, y0);
-    Y = A0 .* yout + c;
+    [~, yOut] = ode45(@diffFun, t, y0);
+    Y = A0 .* yOut + c;
     
     %Remove first point if preliminary ti used.
     if tcheck
@@ -18,7 +18,7 @@ function Y = expfun(param, t)
     end
     
     %System of diff eq
-    function dy = difeq(~, y)
+    function dy = diffFun(~, y)
         dy = -k1*y(1);
     end
 
