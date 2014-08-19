@@ -1,4 +1,5 @@
 function [d, a, da] = calculatebinding_onesite(dAdded, aAdded, Ka)
+%[d, a, da] = calculatebinding_onesite(dAdded, aAdded, Ka)
 %Returns the equilibrium values, d, a, and da for a one site binding model given
 %the analytical concentrations of D, dAdded, and A, aAdded, and a binding
 %constant, Ka
