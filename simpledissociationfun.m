@@ -1,7 +1,13 @@
-function Y = simpledissociationfun(concentrations, param, t)
+function Y = simpledissociationfun(varargin)
+%Y = simpledissociationfun(concentration, param, t)
+%   Returns simulated data for a simple dissociation decay model.
+%
+%Y = simpledissociationfun(concentration, param, t, noiseLvl)
+%   Returns simulated date with gaussian noise with standard dev, noiseLvl.
+%
 %t is a vertical vector
 %param = [a0 kD kQ Ka kOff]
-%concentrations = [zntAdded fe3Added]
+%concentration = [zntAdded fe3Added]
 %param units:
 %   a0    complicated
 %   kD    1/s
@@ -9,8 +15,13 @@ function Y = simpledissociationfun(concentrations, param, t)
 %   KaExp unitless - KaExp = log(Ka), with Ka units of 1/M
 %   kOn   1/(M*s)
 
-zntAdded  = concentrations(1);
-fe3Added  = concentrations(2);
+concentration = varargin{1};
+param         = varargin{2};
+t             = varargin{3};
+
+
+zntAdded  = concentration(1);
+fe3Added  = concentration(2);
 a0        = param(1);
 kD        = param(2);
 kQ        = param(3);
@@ -29,6 +40,12 @@ kOn  = kOn*10^-6; %kOn must be in uM-1s-1.
 [~, concentrationsY] = ode45(@diffFun, t, [znt0 zntfe30]);
 
 Y = a0 .* (concentrationsY(:, 1) + concentrationsY(:, 2));
+
+if nargin == 4
+    noiseLvl = varargin{4};
+    Y        = awgn(Y, noiseLvl);
+end
+
 
 %If an extra time point was added, the computed simulation point should be
 %removed.
