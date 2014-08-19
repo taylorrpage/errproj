@@ -9,3 +9,5 @@ if t(1) > 10^ti
     t = [10^ti; t];
     hasAddedT = true;
 end
+
+end

@@ -15,7 +15,7 @@ Y         = A0 .* yOut + c;
 
 %If an extra time point was added, the computed simulation point should be
 %removed.
-if hasAddedT
+if tcheck
     Y = Y(2:end);
 end
 
